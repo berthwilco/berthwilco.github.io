@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>春暖花开 xing把有你-春日心情分享与温暖陪伴主题站</title>
+<meta name="description" content="春暖花开 xing把有你，是一个围绕春日心情、温暖陪伴与生活分享的主题页面，收录春日寄语、花开时节的心情记录、陪伴清单和常见问题，帮助你在春天找到属于自己的那份温暖。">
+<meta name="keywords" content="春暖花开 xing把有你,春暖花开,春日心情,温暖陪伴,春天分享">
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+<style>
+  :root{
+    --pink:#f7a8b8;
+    --pink-deep:#e2748c;
+    --green:#7fb77e;
+    --green-deep:#4f8a55;
+    --cream:#fffaf4;
+    --warm:#fff2e6;
+    --ink:#3a3335;
+    --ink-soft:#6b6167;
+    --line:#f0e2e6;
+    --shadow:0 10px 30px rgba(226,116,140,.12);
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;}
+  .wrap{width:min(1160px,92%);margin:0 auto;}
+
+  /* ---------- 顶部导航 ---------- */
+  header.site-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,250,244,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:18px;padding:14px 0;flex-wrap:wrap;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;letter-spacing:.5px;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:12px;flex:none;
+    background:linear-gradient(135deg,var(--pink),var(--green));
+    display:grid;place-items:center;color:#fff;font-size:1.05rem;
+    box-shadow:var(--shadow);
+  }
+  .brand span small{display:block;font-size:.68rem;font-weight:500;color:var(--ink-soft);letter-spacing:1px;}
+  nav.main-nav ul{display:flex;gap:6px;list-style:none;flex-wrap:wrap;}
+  nav.main-nav a{
+    display:inline-block;padding:8px 14px;border-radius:999px;
+    font-size:.92rem;color:var(--ink-soft);transition:.25s;
+  }
+  nav.main-nav a:hover,nav.main-nav a.active{
+    background:var(--warm);color:var(--pink-deep);font-weight:600;
+  }
+
+  /* ---------- 首屏 ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(circle at 12% 20%,rgba(247,168,184,.35),transparent 55%),
+      radial-gradient(circle at 88% 10%,rgba(127,183,126,.28),transparent 50%),
+      linear-gradient(160deg,#fff7f2,#fdf1f4 60%,#f3f9f0);
+    padding:64px 0 56px;
+  }
+  .hero-inner{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;
+  }
+  .hero-tag{
+    display:inline-block;padding:6px 16px;border-radius:999px;
+    background:#fff;border:1px solid var(--line);color:var(--pink-deep);
+    font-size:.82rem;letter-spacing:1px;margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:clamp(1.9rem,4.4vw,3rem);
+    line-height:1.3;letter-spacing:1px;margin-bottom:18px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(90deg,var(--pink-deep),var(--green-deep));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p.lead{color:var(--ink-soft);font-size:1.02rem;max-width:34em;margin-bottom:26px;}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:12px 26px;border-radius:999px;
+    font-size:.95rem;font-weight:600;transition:.25s;border:1px solid transparent;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--pink-deep),var(--pink));
+    color:#fff;box-shadow:0 10px 22px rgba(226,116,140,.3);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 26px rgba(226,116,140,.36);}
+  .btn-ghost{background:#fff;border-color:var(--line);color:var(--green-deep);}
+  .btn-ghost:hover{background:var(--warm);}
+
+  .hero-art{
+    background:#fff;border-radius:26px;padding:26px;border:1px solid var(--line);
+    box-shadow:var(--shadow);
+  }
+  .hero-art h2{font-size:1.02rem;margin-bottom:14px;color:var(--pink-deep);letter-spacing:.5px;}
+  .petal-list{list-style:none;display:grid;gap:12px;}
+  .petal-list li{
+    display:flex;gap:12px;align-items:flex-start;
+    background:var(--warm);border-radius:14px;padding:12px 14px;font-size:.9rem;color:var(--ink-soft);
+  }
+  .petal-list li b{color:var(--ink);display:block;font-size:.95rem;margin-bottom:2px;}
+  .petal-icon{
+    width:30px;height:30px;flex:none;border-radius:10px;display:grid;place-items:center;
+    background:#fff;color:var(--green-deep);font-size:.9rem;
+  }
+
+  /* ---------- 通用区块 ---------- */
+  section{padding:58px 0;}
+  .section-head{margin-bottom:30px;}
+  .section-head .kicker{
+    font-size:.8rem;letter-spacing:2px;color:var(--green-deep);font-weight:600;text-transform:uppercase;
+  }
+  .section-head h2{font-size:clamp(1.4rem,2.6vw,1.9rem);margin:8px 0 10px;letter-spacing:.5px;}
+  .section-head p{color:var(--ink-soft);max-width:52em;font-size:.95rem;}
+
+  .alt-bg{background:linear-gradient(180deg,#fffdfa,#fdf4f6);}
+
+  /* ---------- 卡片网格 ---------- */
+  .grid{display:grid;gap:22px;}
+  .grid-3{grid-template-columns:repeat(3,1fr);}
+  .grid-2{grid-template-columns:repeat(2,1fr);}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;transition:.28s;position:relative;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#f6d6dd;}
+  .card .num{
+    font-size:.78rem;font-weight:700;color:var(--pink-deep);letter-spacing:1px;
+  }
+  .card h3{font-size:1.08rem;margin:10px 0 10px;letter-spacing:.3px;}
+  .card p{font-size:.9rem;color:var(--ink-soft);}
+  .card .meta{margin-top:16px;font-size:.8rem;color:#a89aa0;display:flex;gap:10px;flex-wrap:wrap;}
+  .card .meta span{background:var(--warm);padding:3px 10px;border-radius:999px;}
+
+  /* ---------- 心情记录列表 ---------- */
+  .note-list{display:grid;gap:16px;}
+  .note{
+    display:grid;grid-template-columns:78px 1fr auto;gap:18px;align-items:center;
+    background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;transition:.25s;
+  }
+  .note:hover{border-color:#f6d6dd;box-shadow:var(--shadow);}
+  .note .date{
+    text-align:center;border-right:1px dashed var(--line);padding-right:12px;
+  }
+  .note .date b{display:block;font-size:1.25rem;color:var(--pink-deep);line-height:1.2;}
+  .note .date span{font-size:.72rem;color:#a89aa0;letter-spacing:1px;}
+  .note h3{font-size:1rem;margin-bottom:6px;}
+  .note p{font-size:.88rem;color:var(--ink-soft);}
+  .note .tag{
+    font-size:.78rem;padding:5px 12px;border-radius:999px;background:#f2f8f1;color:var(--green-deep);
+    white-space:nowrap;
+  }
+
+  /* ---------- 陪伴清单 ---------- */
+  .check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+  .check-item{
+    display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+    border-radius:16px;padding:18px 20px;
+  }
+  .check-item .dot{
+    width:26px;height:26px;border-radius:50%;flex:none;margin-top:2px;
+    background:linear-gradient(135deg,var(--pink),var(--green));
+    display:grid;place-items:center;color:#fff;font-size:.75rem;font-weight:700;
+  }
+  .check-item h3{font-size:1rem;margin-bottom:6px;}
+  .check-item p{font-size:.88rem;color:var(--ink-soft);}
+
+  /* ---------- 侧栏式内容 ---------- */
+  .split{display:grid;grid-template-columns:1.6fr 1fr;gap:34px;align-items:start;}
+  .article-box{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;
+  }
+  .article-box h2{font-size:1.35rem;margin-bottom:16px;}
+  .article-box h3{font-size:1.05rem;margin:22px 0 10px;color:var(--green-deep);}
+  .article-box p{font-size:.94rem;color:var(--ink-soft);margin-bottom:12px;}
+  .article-box ul{margin:0 0 14px 20px;font-size:.92rem;color:var(--ink-soft);}
+  .article-box li{margin-bottom:8px;}
+  .aside-box{
+    background:linear-gradient(160deg,#fff6f8,#f4faf2);
+    border:1px solid var(--line);border-radius:var(--radius);padding:26px;
+  }
+  .aside-box h3{font-size:1.05rem;margin-bottom:14px;color:var(--pink-deep);}
+  .aside-box ul{list-style:none;display:grid;gap:12px;}
+  .aside-box li{font-size:.88rem;color:var(--ink-soft);padding-left:18px;position:relative;}
+  .aside-box li::before{
+    content:"";position:absolute;left:0;top:.6em;width:7px;height:7px;border-radius:50%;
+    background:var(--pink);
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq{display:grid;gap:14px;}
+  details{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 22px;
+    transition:.25s;
+  }
+  details[open]{border-color:#f6d6dd;box-shadow:var(--shadow);}
+  summary{
+    cursor:pointer;font-weight:600;font-size:.98rem;list-style:none;
+    display:flex;justify-content:space-between;gap:14px;align-items:center;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary::after{
+    content:"+";font-size:1.2rem;color:var(--pink-deep);font-weight:400;flex:none;
+  }
+  details[open] summary::after{content:"−";}
+  details p{margin-top:12px;font-size:.9rem;color:var(--ink-soft);}
+
+  /* ---------- 页脚 ---------- */
+  footer.site-footer{
+    background:#3a3335;color:#e8dfe2;padding:46px 0 26px;margin-top:20px;
+  }
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px;}
+  .footer-grid h4{font-size:.98rem;margin-bottom:14px;color:#fff;letter-spacing:.5px;}
+  .footer-grid p,.footer-grid li{font-size:.86rem;color:#c3b6bb;line-height:1.9;}
+  .footer-grid ul{list-style:none;}
+  .footer-grid a:hover{color:var(--pink);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:18px;
+    font-size:.8rem;color:#a2959b;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+
+  /* ---------- 响应式 ---------- */
+  @media (max-width:960px){
+    .hero-inner{grid-template-columns:1fr;}
+    .grid-3{grid-template-columns:repeat(2,1fr);}
+    .split{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:640px){
+    .hero{padding:44px 0 40px;}
+    section{padding:42px 0;}
+    .grid-3,.grid-2,.check-grid{grid-template-columns:1fr;}
+    .note{grid-template-columns:60px 1fr;gap:14px;}
+    .note .tag{grid-column:2;justify-self:start;}
+    .footer-grid{grid-template-columns:1fr;}
+    nav.main-nav ul{gap:2px;}
+    nav.main-nav a{padding:6px 10px;font-size:.86rem;}
+    .article-box,.aside-box,.hero-art{padding:20px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav-bar">
+    <div class="brand">
+      <div class="brand-mark">春</div>
+      <span>春暖花开<small>xing把有你 · 温暖陪伴</small></span>
+    </div>
+    <nav class="main-nav" aria-label="主导航">
+      <ul>
+        <li><a href="#about" class="active">关于主题</a></li>
+        <li><a href="#notes">心情记录</a></li>
+        <li><a href="#list">陪伴清单</a></li>
+        <li><a href="#guide">分享指南</a></li>
+        <li><a href="#faq">常见问题</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- 首屏 -->
+  <section class="hero" id="about">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="hero-tag">春日心情 · 温暖陪伴</span>
+        <h1>春暖花开，<em>xing把有你</em>——把春天的温柔留给身边的人</h1>
+        <p class="lead">
+          “春暖花开”说的是季节，“xing把有你”说的是心意。当花开满枝、风变柔软的时候，最值得记录的不是风景本身，
+          而是有人愿意陪你看风景。这个页面围绕春日心情、陪伴方式与分享习惯展开，适合想为朋友、家人或自己
+          留下一段温暖文字的人。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#notes">看看春日心情</a>
+          <a class="btn btn-ghost" href="#list">打开陪伴清单</a>
+        </div>
+      </div>
+
+      <aside class="hero-art" aria-label="春日关键词速览">
+        <h2>这个页面在聊什么</h2>
+        <ul class="petal-list">
+          <li>
+            <span class="petal-icon">花</span>
+            <span><b>春日氛围</b>花开的季节感、光线与温度带来的心情变化。</span>
+          </li>
+          <li>
+            <span class="petal-icon">伴</span>
+            <span><b>陪伴表达</b>如何把“有你真好”说出口，而不是只放在心里。</span>
+          </li>
+          <li>
+            <span class="petal-icon">记</span>
+            <span><b>心情记录</b>用短句、照片或清单，把当下的感受留下来。</span>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 春日心情记录 -->
+  <section id="notes">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Season Notes</div>
+        <h2>春日心情记录</h2>
+        <p>春天的心情往往来得快、走得也快。下面这些片段式的记录，展示了不同场景下“春暖花开 xing把有你”可能的样子，你可以把它们当作写作灵感，也可以换成自己的版本。</p>
+      </div>
+
+      <div class="note-list">
+        <article class="note">
+          <div class="date"><b>01</b><span>花开</span></div>
+          <div>
+            <h3>第一枝花开了，我第一个想告诉你</h3>
+            <p>路过小区门口那棵树，花苞一夜之间全开了。拍下来发出去，配一句“春天到了，你那边呢”，比任何寒暄都自然。</p>
+          </div>
+          <span class="tag">分享灵感</span>
+        </article>
+
+        <article class="note">
+          <div class="date"><b>02</b><span>散步</span></div>
+          <div>
+            <h3>把周末的下午留给一次慢走</h3>
+            <p>不需要计划目的地，沿着河边或者公园走一圈，聊聊最近的事。陪伴很多时候就是一起浪费时间。</p>
+          </div>
+          <span class="tag">陪伴方式</span>
+        </article>
+
+        <article class="note">
+          <div class="date"><b>03</b><span>问候</span></div>
+          <div>
+            <h3>给久未联系的人发一句“最近好吗”</h3>
+            <p>春天适合重新连接。不用铺垫太多，一句简单的问候，往往就能把断掉的话头接回来。</p>
+          </div>
+          <span class="tag">关系维护</span>
+        </article>
+
+        <article class="note">
+          <div class="date"><b>04</b><span>自处</span></div>
+          <div>
+            <h3>一个人也可以过得很春天</h3>
+            <p>整理窗台、换一束花、把厚衣服收起来。“有你”里的“你”，也可以是认真生活的自己。</p>
+          </div>
+          <span class="tag">自我关照</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 陪伴清单 -->
+  <section class="alt-bg" id="list">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">Together List</div>
+        <h2>春日陪伴清单</h2>
+        <p>如果不知道从哪里开始，可以从这份清单里挑一两件去做。重点不在完成数量，而在于过程中你真的和某个人待在一起。</p>
+      </div>
+
+      <div class="check-grid">
+        <div class="check-item">
+          <span class="dot">1</span>
+          <div>
+            <h3>一起去看一次花</h3>
+            <p>公园、街角、郊外都可以。带上水和小零食，把节奏放慢，允许自己在花树下什么都不做。</p>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="dot">2</span>
+          <div>
+            <h3>拍一张合照，不修图</h3>
+            <p>春天的光线本身就很好，不必追求完美构图。留住当下的表情，比留住完美的画面更重要。</p>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="dot">3</span>
+          <div>
+            <h3>写一段话，认真发给对方</h3>
+            <p>不用长篇大论，两三句就够。说清楚“为什么想到你”，比泛泛的祝福更有分量。</p>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="dot">4</span>
+          <div>
+            <h3>约定一件夏天要做的事</h3>
+            <p>春天适合播种约定。把“下次一起”变成具体的月份和事情，关系就有了延续的方向。</p>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="dot">5</span>
+          <div>
+            <h3>整理一次旧照片</h3>
+            <p>翻看过去的记录，挑几张发给当事人。共同回忆是很低成本的温暖，也很容易被忽略。</p>
+          </div>
+        </div>
+        <div class="check-item">
+          <span class="dot">6</span>
+          <div>
+            <h3>给自己留一个安静的下午</h3>
+            <p>陪伴别人之前，先照顾好自己的情绪。春天容易犯困也容易感伤，允许自己慢一点。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 分享指南 + 侧栏 -->
+  <section id="guide">
+    <div class="wrap split">
+      <article class="article-box">
+        <h2>如何把“春暖花开 xing把有你”写成一段真诚的分享</h2>
+        <p>
+          很多人在春天想发点什么，却卡在“不知道怎么写”。其实这类分享不需要华丽辞藻，它更接近一次日常对话。
+          只要把时间、场景和感受三件事说清楚，文字自然就有温度。
+        </p>
+
+        <h3>一、先写具体场景，再写情绪</h3>
+        <p>
+          抽象的“春天真美好”很难让人有画面感，而“楼下那棵玉兰今天开了第一朵”就具体得多。
+          先描述你看到、听到、闻到的细节，再补一句自己的心情，读者会更容易代入。
+        </p>
+
+        <h3>二、把“有你”落到具体的人</h3>
+        <p>
+          “xing把有你”里的“你”最好指向明确：是朋友、家人、伴侣，还是过去的自己。
+          指向越清楚，文字越不容易变成泛泛的祝福语。你可以直接写“想和你说”，而不是“希望大家”。
+        </p>
+
+        <h3>三、控制篇幅，留一点余地</h3>
+        <p>
+          一段话、三五行，通常比长篇抒情更适合日常分享。把最想说的那句放在开头或结尾，
+          中间用一两个细节支撑，读起来会更轻松。
+        </p>
+
+        <h3>四、注意这些容易踩的坑</h3>
+        <ul>
+          <li>不要为了显得文艺而堆砌形容词，读起来会失真。</li>
+          <li>不要在没有确认的情况下，替别人讲述他的经历或感受。</li>
+          <li>涉及他人照片、聊天记录时，先征得对方同意再发布。</li>
+          <li>不必强行升华，日常的平淡本身就是一种真实。</li>
+        </ul>
+
+        <h3>五、可以套用的简单结构</h3>
+        <p>
+          时间 + 场景 + 一个小动作 + 一句想对“你”说的话。例如：“今天下午路过河边，柳树都绿了，
+          我停下来站了一会儿，突然很想告诉你，春天真的来了。”这个结构简单、自然，也容易写出自己的版本。
+        </p>
+      </article>
+
+      <aside class="aside-box" aria-label="写作小提示">
+        <h3>写之前先想三个问题</h3>
+        <ul>
+          <li>我想让谁看到这段话？</li>
+          <li>我希望对方看完之后有什么感受？</li>
+          <li>这段话里有没有一个具体的画面？</li>
+        </ul>
+        <h3 style="margin-top:24px;">适合搭配的内容</h3>
+        <ul>
+          <li>一张自然光下的照片，不必精修</li>
+          <li>一段环境音或一首安静的歌</li>
+          <li>一句手写的短句，拍照即可</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 常见问题 -->
+  <section class="alt-bg" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="kicker">FAQ</div>
+        <h2>常见问题</h2>
+        <p>关于这个主题，读者问得比较多的几个问题，整理如下。</p>
+      </div>
+
+      <div class="faq">
+        <details open>
+          <summary>“春暖花开 xing把有你”具体是什么意思？</summary>
+          <p>它把季节和心意放在一起理解：“春暖花开”指春天到来、万物复苏的季节氛围；“xing把有你”表达的是“幸运的是，有你在身边”这样的陪伴感。整体可以理解为在美好的季节里，因为有人同行而更值得记录。</p>
+        </details>
+        <details>
+          <summary>这个页面是做什么用的？</summary>
+          <p>它是一个围绕春日心情与陪伴分享的主题页面，提供写作灵感、陪伴清单和常见问题，帮助你把当下的感受整理成可以分享的文字或行动，而不是一个资讯或交易平台。</p>
+        </details>
+        <details>
+          <summary>我不擅长写文字，也能分享吗？</summary>
+          <p>可以。分享不限于文字，一张照片、一段语音、一次约见面都算。如果一定要写，用“时间 + 场景 + 一句话”的结构就够了，不需要追求文采。</p>
+        </details>
+        <details>
+          <summary>春天容易情绪低落，这正常吗？</summary>
+          <p>季节变化确实可能影响情绪状态，作息、光照和压力都会起作用。如果这种低落持续时间较长或明显影响生活，建议向专业人士寻求帮助，本页面内容不能替代专业建议。</p>
+        </details>
+        <details>
+          <summary>可以把这里的清单用在其他季节吗？</summary>
+          <p>可以。清单里的核心是“和具体的人做具体的事”，把看花换成看落叶、看雪同样成立，只是春天更容易让人产生重新开始的意愿。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>春暖花开 xing把有你</h4>
+        <p>一个围绕春日心情、温暖陪伴与日常分享的主题页面。希望你在花开的季节里，既能被陪伴，也能成为别人的春天。</p>
+      </div>
+      <div>
+        <h4>页面导航</h4>
+        <ul>
+          <li><a href="#about">关于主题</a></li>
+          <li><a href="#notes">心情记录</a></li>
+          <li><a href="#list">陪伴清单</a></li>
+          <li><a href="#guide">分享指南</a></li>
+          <li><a href="#faq">常见问题</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>温馨提示</h4>
+        <ul>
+          <li>分享他人内容前请先征得同意</li>
+          <li>涉及个人信息请注意保护</li>
+          <li>情绪困扰请及时寻求专业帮助</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 春暖花开 xing把有你 · 春日心情主题页</span>
+      <span>用心记录，温柔陪伴</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var links = document.querySelectorAll('nav.main-nav a');
+    var sections = [];
+    links.forEach(function(a){
+      var id = a.getAttribute('href');
+      if(id && id.charAt(0) === '#'){
+        var el = document.querySelector(id);
+        if(el) sections.push({link:a, el:el});
+      }
+    });
+    if(!('IntersectionObserver' in window) || sections.length === 0) return;
+
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          sections.forEach(function(item){
+            item.link.classList.toggle('active', item.el === entry.target);
+          });
+        }
+      });
+    }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+
+    sections.forEach(function(item){ observer.observe(item.el); });
+  })();
+</script>
+
+</body>
+  </html>
