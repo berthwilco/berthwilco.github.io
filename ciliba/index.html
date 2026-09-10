@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ciliba磁力搜索引擎-磁力链接搜索原理、使用与安全指南</title>
+<meta name="description" content="ciliba磁力搜索引擎相关介绍，说明磁力链接与BT种子索引的基本原理、搜索使用场景、结果判断方法、下载工具选择以及版权与网络安全注意事项。">
+<meta name="keywords" content="ciliba磁力搜索引擎,磁力搜索,磁力链接,BT种子索引,DHT网络,磁力搜索使用指南">
+<script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+<style>
+:root{
+  --bg:#0d1117;
+  --bg-soft:#141b24;
+  --panel:#1a222d;
+  --line:#2a3441;
+  --txt:#e6edf3;
+  --txt-dim:#9aa7b4;
+  --accent:#3fb6ff;
+  --accent-2:#7c5cff;
+  --ok:#3ddc97;
+  --warn:#ffb454;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",-apple-system,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  line-height:1.75;
+  font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+img{max-width:100%;display:block;}
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 20px;}
+
+/* ---------- header ---------- */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(13,17,23,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;height:64px;
+}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:.5px;}
+.logo .mark{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;color:#fff;font-weight:800;
+}
+.logo span.sub{font-size:12px;color:var(--txt-dim);font-weight:400;letter-spacing:0;}
+.main-nav{display:flex;gap:4px;flex-wrap:wrap;}
+.main-nav a{
+  color:var(--txt-dim);font-size:14.5px;padding:8px 12px;border-radius:8px;
+}
+.main-nav a:hover{color:var(--txt);background:var(--panel);text-decoration:none;}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:56px 0 44px;
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(900px 320px at 15% -10%,rgba(63,182,255,.14),transparent 70%),
+    radial-gradient(700px 300px at 90% 0%,rgba(124,92,255,.14),transparent 70%);
+}
+.hero h1{font-size:clamp(26px,4vw,38px);line-height:1.3;font-weight:800;letter-spacing:.5px;}
+.hero h1 em{font-style:normal;color:var(--accent);}
+.hero p.lead{margin-top:16px;max-width:760px;color:var(--txt-dim);font-size:16.5px;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+.tag{
+  font-size:13px;color:var(--txt-dim);
+  border:1px solid var(--line);border-radius:999px;
+  padding:5px 13px;background:var(--bg-soft);
+}
+.search-demo{
+  margin-top:30px;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--radius);padding:16px;display:flex;gap:10px;flex-wrap:wrap;
+  max-width:720px;
+}
+.search-demo input{
+  flex:1 1 260px;min-width:0;background:#0b1017;border:1px solid var(--line);
+  color:var(--txt);border-radius:9px;padding:12px 14px;font-size:15px;outline:none;
+  font-family:inherit;
+}
+.search-demo input:focus{border-color:var(--accent);}
+.search-demo button{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#fff;border:0;border-radius:9px;padding:12px 24px;font-size:15px;
+  font-weight:600;cursor:pointer;font-family:inherit;
+}
+.search-demo button:hover{opacity:.9;}
+.search-note{font-size:13px;color:var(--txt-dim);margin-top:10px;max-width:720px;}
+
+/* ---------- layout ---------- */
+main{padding:48px 0 20px;}
+.section{margin-bottom:56px;}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+.section-head h2{font-size:22px;font-weight:700;letter-spacing:.5px;}
+.section-head h2::before{
+  content:"";display:inline-block;width:4px;height:18px;border-radius:2px;
+  background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  margin-right:10px;vertical-align:-2px;
+}
+.section-head .hint{font-size:13.5px;color:var(--txt-dim);}
+
+.grid{display:grid;gap:18px;}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-2{grid-template-columns:repeat(2,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px;transition:border-color .2s,transform .2s;
+}
+.card:hover{border-color:#3a4757;transform:translateY(-2px);}
+.card h3{font-size:16.5px;margin-bottom:10px;font-weight:700;}
+.card p{font-size:14.5px;color:var(--txt-dim);}
+.card .num{
+  font-size:13px;font-weight:700;color:var(--accent);
+  letter-spacing:1px;margin-bottom:10px;display:block;
+}
+
+/* ---------- steps ---------- */
+.steps{counter-reset:step;display:grid;gap:16px;grid-template-columns:repeat(2,1fr);}
+.step{
+  background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px 20px 22px;position:relative;
+}
+.step::before{
+  counter-increment:step;content:counter(step,decimal-leading-zero);
+  font-size:13px;font-weight:800;color:var(--accent-2);letter-spacing:1px;
+  display:block;margin-bottom:8px;
+}
+.step h3{font-size:16px;margin-bottom:8px;}
+.step p{font-size:14.5px;color:var(--txt-dim);}
+
+/* ---------- table ---------- */
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);}
+table{width:100%;border-collapse:collapse;min-width:620px;font-size:14.5px;}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:#111823;color:var(--txt);font-weight:600;font-size:14px;white-space:nowrap;}
+td{color:var(--txt-dim);}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr:hover td{background:#161e28;}
+
+/* ---------- list ---------- */
+.check-list{list-style:none;display:grid;gap:12px;}
+.check-list li{
+  position:relative;padding-left:26px;font-size:14.8px;color:var(--txt-dim);
+}
+.check-list li::before{
+  content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;
+  background:var(--accent);transform:rotate(45deg);
+}
+.check-list li strong{color:var(--txt);font-weight:600;}
+
+/* ---------- notice ---------- */
+.notice{
+  border:1px solid rgba(255,180,84,.35);
+  background:rgba(255,180,84,.07);
+  border-radius:var(--radius);padding:20px 22px;
+}
+.notice h3{font-size:16px;color:var(--warn);margin-bottom:10px;}
+.notice p{font-size:14.5px;color:var(--txt-dim);}
+.notice p + p{margin-top:8px;}
+
+/* ---------- faq ---------- */
+.faq-item{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--panel);margin-bottom:12px;overflow:hidden;
+}
+.faq-item summary{
+  cursor:pointer;padding:16px 20px;font-size:15.5px;font-weight:600;
+  list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center;
+}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{
+  content:"+";color:var(--accent);font-size:20px;font-weight:400;line-height:1;flex:0 0 auto;
+}
+.faq-item[open] summary::after{content:"–";}
+.faq-item .faq-body{padding:0 20px 18px;font-size:14.6px;color:var(--txt-dim);}
+.faq-item[open] summary{border-bottom:1px solid var(--line);}
+
+/* ---------- aside side ---------- */
+.split{display:grid;grid-template-columns:1.6fr 1fr;gap:32px;align-items:start;}
+.side-box{
+  background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px;
+}
+.side-box h3{font-size:16px;margin-bottom:14px;}
+.side-box ul{list-style:none;display:grid;gap:11px;}
+.side-box li{font-size:14.3px;color:var(--txt-dim);padding-bottom:11px;border-bottom:1px dashed var(--line);}
+.side-box li:last-child{border-bottom:0;padding-bottom:0;}
+.side-box li b{color:var(--txt);font-weight:600;display:block;font-size:14.5px;margin-bottom:2px;}
+
+/* ---------- footer ---------- */
+.site-footer{
+  border-top:1px solid var(--line);background:#0a0e14;
+  padding:40px 0 28px;margin-top:20px;
+}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:28px;}
+.footer-grid h4{font-size:14.5px;margin-bottom:12px;}
+.footer-grid p,.footer-grid li{font-size:13.6px;color:var(--txt-dim);}
+.footer-grid ul{list-style:none;display:grid;gap:8px;}
+.copyright{
+  margin-top:30px;padding-top:18px;border-top:1px solid var(--line);
+  font-size:13px;color:#6b7885;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:960px){
+  .grid-3,.grid-4{grid-template-columns:repeat(2,1fr);}
+  .split{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:680px){
+  body{font-size:15.5px;}
+  .header-inner{height:auto;padding:12px 0;flex-direction:column;align-items:flex-start;}
+  .main-nav{gap:2px;}
+  .main-nav a{padding:6px 9px;font-size:14px;}
+  .hero{padding:38px 0 32px;}
+  .grid-3,.grid-4,.grid-2,.steps{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .section{margin-bottom:42px;}
+  .search-demo button{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="logo">
+      <div class="mark">C</div>
+      <div>
+        ciliba磁力搜索引擎
+        <span class="sub">磁力链接检索 · 使用参考</span>
+      </div>
+    </div>
+    <nav class="main-nav" aria-label="主导航">
+      <a href="#intro">概念说明</a>
+      <a href="#how">工作原理</a>
+      <a href="#use">使用方法</a>
+      <a href="#judge">结果判断</a>
+      <a href="#tools">工具选择</a>
+      <a href="#safety">安全与合规</a>
+      <a href="#faq">常见问题</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <h1>ciliba磁力搜索引擎：<em>磁力链接检索</em>的原理、使用与安全参考</h1>
+      <p class="lead">
+        磁力搜索引擎是一类把散落在 DHT 网络与公开索引中的资源信息汇总起来、供用户按关键词检索的网站。
+        它本身通常不存储文件，只提供指向资源的磁力链接（Magnet URI）。本页围绕这类工具的检索逻辑、
+        使用流程、结果判断方法以及版权与安全边界展开说明，帮助你在了解原理的前提下更稳妥地使用。
+      </p>
+      <div class="hero-tags">
+        <span class="tag">Magnet URI</span>
+        <span class="tag">DHT 网络</span>
+        <span class="tag">BT 种子索引</span>
+        <span class="tag">关键词检索</span>
+        <span class="tag">P2P 传输</span>
+      </div>
+
+      <form class="search-demo" onsubmit="return false;" aria-label="检索演示">
+        <input type="text" id="demoInput" placeholder="输入关键词，例如：纪录片 4K / 开源系统镜像" aria-label="检索关键词">
+        <button type="button" onclick="demoSearch()">演示检索</button>
+      </form>
+      <p class="search-note" id="demoResult">
+        提示：本输入框仅用于演示检索交互，不会向任何服务器发送请求，也不提供资源结果。
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap">
+
+    <!-- 概念说明 -->
+    <section class="section" id="intro">
+      <div class="section-head">
+        <h2>先弄清概念：磁力搜索到底在搜什么</h2>
+        <span class="hint">理解边界，比记住入口更重要</span>
+      </div>
+      <div class="grid grid-3">
+        <article class="card">
+          <span class="num">01 / 索引</span>
+          <h3>它索引的是“描述信息”，不是文件</h3>
+          <p>磁力搜索站点通常只保存资源的名称、文件列表、体积、信息哈希（Info Hash）等元数据。点击结果得到的是一个磁力链接，真正的数据传输发生在用户之间的 P2P 网络中。</p>
+        </article>
+        <article class="card">
+          <span class="num">02 / 链接</span>
+          <h3>磁力链接由信息哈希构成</h3>
+          <p>一条 Magnet URI 的核心是 <code>xt=urn:btih:</code> 后面的哈希值。只要哈希一致，不同站点、不同工具都能定位到同一份资源描述，这也是磁力链接比传统种子文件更易传播的原因。</p>
+        </article>
+        <article class="card">
+          <span class="num">03 / 网络</span>
+          <h3>DHT 让索引去中心化</h3>
+          <p>DHT（分布式哈希表）把“谁拥有哪些资源”的信息分散存放在大量节点上。搜索站点往往通过爬取 DHT 网络与公开来源来填充自己的数据库，因此不同站点的结果覆盖范围差异明显。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 工作原理 -->
+    <section class="section" id="how">
+      <div class="section-head">
+        <h2>检索链路：从关键词到可下载任务</h2>
+        <span class="hint">四个环节，缺一不可</span>
+      </div>
+      <div class="grid grid-4">
+        <article class="card">
+          <h3>① 关键词匹配</h3>
+          <p>站点对资源名称、文件列表做全文或分词匹配，返回候选列表。关键词越具体，命中质量通常越高。</p>
+        </article>
+        <article class="card">
+          <h3>② 元数据获取</h3>
+          <p>选中结果后，客户端通过 DHT 或 Tracker 找到拥有该资源的节点，拉取种子元数据（文件清单与体积）。</p>
+        </article>
+        <article class="card">
+          <h3>③ 节点连接</h3>
+          <p>客户端与多个节点建立连接，按分片交换数据。连接数、做种人数直接影响速度与可完成度。</p>
+        </article>
+        <article class="card">
+          <h3>④ 本地校验</h3>
+          <p>每个分片下载后按哈希校验，校验通过才写入磁盘，因此分片损坏会被自动重传。</p>
+        </article>
+      </div>
+
+      <div class="notice" style="margin-top:22px;">
+        <h3>一个常被误解的点</h3>
+        <p>“搜索到结果”并不等于“一定能下载完成”。如果某个资源的做种节点已经离线，即使索引里还留着记录，客户端也可能长时间停在获取元数据或 0% 进度。索引的时效性与网络的实际可用性，是两件不同的事。</p>
+      </div>
+    </section>
+
+    <!-- 使用方法 -->
+    <section class="section" id="use">
+      <div class="section-head">
+        <h2>使用流程参考</h2>
+        <span class="hint">以合规内容为前提</span>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <h3>明确你要找的内容类型</h3>
+          <p>先判断目标是否属于可合法获取的范围，例如开源软件镜像、公共领域作品、已获授权的影视或自有资料。这一步决定了后续所有操作是否成立。</p>
+        </article>
+        <article class="step">
+          <h3>用具体关键词缩小范围</h3>
+          <p>把名称、年份、语言、清晰度、文件格式等要素组合成关键词，比只输入一两个泛词更容易得到相关结果，也能减少翻页筛选的时间。</p>
+        </article>
+        <article class="step">
+          <h3>核对结果的元数据</h3>
+          <p>重点看文件列表、总体积、文件数量与创建时间。文件列表与标题明显不符、体积异常小或异常大，都属于需要警惕的信号。</p>
+        </article>
+        <article class="step">
+          <h3>交给客户端处理</h3>
+          <p>把磁力链接粘贴进支持 Magnet 的 BT 客户端，设置好下载目录与限速策略，等待元数据获取完成后再判断是否继续。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 结果判断 -->
+    <section class="section" id="judge">
+      <div class="section-head">
+        <h2>如何判断一条结果是否值得尝试</h2>
+        <span class="hint">看元数据，不看标题党</span>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>观察维度</th>
+              <th>相对可靠的信号</th>
+              <th>需要警惕的信号</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>文件列表</td>
+              <td>文件数量、命名、格式与标题描述一致</td>
+              <td>列表为空、只有单个陌生可执行文件</td>
+            </tr>
+            <tr>
+              <td>总体积</td>
+              <td>与内容类型大致相符（如视频按时长与清晰度估算）</td>
+              <td>标注高清却只有几十 MB，或体积远超合理范围</td>
+            </tr>
+            <tr>
+              <td>文件格式</td>
+              <td>常见媒体、文档、压缩包格式</td>
+              <td>伪装成视频的 .exe / .scr / .bat 等可执行文件</td>
+            </tr>
+            <tr>
+              <td>活跃度</td>
+              <td>客户端能较快获取到元数据与节点</td>
+              <td>长时间停在“获取元数据”，无任何连接</td>
+            </tr>
+            <tr>
+              <td>来源页面</td>
+              <td>页面结构清晰，有基本说明与分类</td>
+              <td>大量诱导性按钮、强制跳转、要求安装不明插件</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 工具选择 -->
+    <section class="section" id="tools">
+      <div class="split">
+        <div>
+          <div class="section-head">
+            <h2>客户端与网络环境的选择思路</h2>
+          </div>
+          <ul class="check-list">
+            <li><strong>选择仍在维护的客户端。</strong>优先考虑更新活跃、社区反馈透明的开源客户端，避免使用来源不明、捆绑安装的“下载器”。</li>
+            <li><strong>区分“索引站”和“下载工具”。</strong>搜索站点只负责检索，下载由本地客户端完成，两者职责不要混淆，也不要在网页上直接运行来源不明的程序。</li>
+            <li><strong>合理设置连接与限速。</strong>过高的连接数会占用大量路由与会话资源，反而降低整体网络体验；按带宽情况设置上传下载限速更稳妥。</li>
+            <li><strong>注意端口与网络环境。</strong>部分网络环境下 P2P 连接会受到限制，此时即使资源本身健康，速度也可能不理想，这属于网络条件问题而非资源问题。</li>
+            <li><strong>下载目录单独隔离。</strong>把 P2P 下载目录与工作、系统目录分开，并对下载完成的文件先做一次安全扫描。</li>
+            <li><strong>不轻信“高速通道”“会员加速”。</strong>这类承诺往往伴随付费诱导或隐私风险，实际效果难以验证。</li>
+          </ul>
+        </div>
+        <aside class="side-box">
+          <h3>常见内容类型与注意事项</h3>
+          <ul>
+            <li><b>开源软件与系统镜像</b>优先从官方或镜像站获取，磁力渠道仅作补充，并核对校验值。</li>
+            <li><b>公共领域与开放授权作品</b>注意确认授权范围，部分作品仅限特定用途。</li>
+            <li><b>影视与音乐</b>绝大多数商业作品受版权保护，未经授权的传播与下载存在法律风险。</li>
+            <li><b>学习资料与文档</b>留意是否为二次打包版本，压缩包内可能夹带无关文件。</li>
+            <li><b>体积异常的压缩包</b>若解压需要密码且来源不明，建议直接放弃。</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 安全与合规 -->
+    <section class="section" id="safety">
+      <div class="section-head">
+        <h2>安全与合规：使用前必须清楚的事</h2>
+        <span class="hint">这部分比技巧更重要</span>
+      </div>
+      <div class="grid grid-2">
+        <article class="card">
+          <h3>版权边界</h3>
+          <p>磁力搜索工具本身是一种检索技术，但通过它获取的内容是否合法，取决于内容本身的授权状态与当地法律规定。对受版权保护的作品，未经许可的下载与传播可能承担相应责任。使用前请自行确认内容的授权情况。</p>
+        </article>
+        <article class="card">
+          <h3>恶意文件风险</h3>
+          <p>P2P 网络中不存在统一的内容审核，伪装成视频、文档的可执行文件并不少见。养成“先看文件列表、再决定是否下载、下载后先扫描”的习惯，可以规避大部分风险。</p>
+        </article>
+        <article class="card">
+          <h3>隐私暴露</h3>
+          <p>P2P 传输中，你的 IP 地址会与其他节点互相可见。若对隐私有较高要求，应了解所在网络环境的相关规则，并评估是否需要采取额外的网络保护措施。</p>
+        </article>
+        <article class="card">
+          <h3>站点本身的风险</h3>
+          <p>部分索引站会通过弹窗、跳转、虚假按钮引导用户安装软件或填写信息。访问时保持浏览器防护开启，不随意下载页面提示的“播放器”“加速器”。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="section-head">
+        <h2>常见问题</h2>
+        <span class="hint">围绕磁力搜索的高频疑问</span>
+      </div>
+
+      <details class="faq-item" open>
+        <summary>磁力搜索引擎和普通搜索引擎有什么区别？</summary>
+        <div class="faq-body">
+          普通搜索引擎索引的是网页内容，返回的是网页链接；磁力搜索引擎索引的是资源元数据，返回的是磁力链接。前者帮你找到“介绍这个资源的页面”，后者直接给出“定位这份资源所需的哈希标识”。两者在检索对象和结果形态上都不同。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>为什么同一个关键词在不同站点结果差别很大？</summary>
+        <div class="faq-body">
+          各站点的数据来源、爬取频率、去重规则和收录策略并不相同。有的偏重 DHT 网络采集，有的依赖用户提交，有的会定期清理失效记录。因此覆盖范围、更新速度和结果排序都会出现差异，这属于正常现象。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>磁力链接和 BT 种子文件是什么关系？</summary>
+        <div class="faq-body">
+          两者描述的是同一份资源的元数据，只是载体不同。种子文件是一个包含信息哈希、Tracker 列表和文件清单的实体文件；磁力链接则把这些关键信息编码进一段文本 URI 中。磁力链接不需要下载种子文件即可开始，使用上更方便。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>一直显示“获取元数据”是什么原因？</summary>
+        <div class="faq-body">
+          通常说明客户端还没有从网络中拿到该资源的元数据。可能的原因包括：做种节点已全部离线、当前网络限制了 P2P 连接、客户端 DHT 功能未启用，或该磁力链接本身已失效。可以尝试更换资源或检查客户端的网络设置。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>下载速度很慢，是资源的问题吗？</summary>
+        <div class="faq-body">
+          不一定。速度受做种人数、节点上行带宽、你自身的网络条件、运营商策略以及客户端设置共同影响。可以先观察连接到的节点数量：节点很少说明资源活跃度低；节点很多但速度仍慢，则更可能是本地网络或限速设置的问题。
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>使用这类工具需要注意哪些法律问题？</summary>
+        <div class="faq-body">
+          核心在于内容本身的授权状态。不同国家和地区对 P2P 传输与版权内容的监管规定存在差异，使用者应当自行了解并遵守当地法律。对来源不明、明显侵权的资源，不建议下载或传播。
+        </div>
+      </details>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>关于本页</h4>
+        <p>本页为磁力搜索相关概念的科普与使用参考，介绍检索原理、结果判断方法与安全注意事项，不提供任何资源下载服务，也不存储任何文件。</p>
+      </div>
+      <div>
+        <h4>内容导航</h4>
+        <ul>
+          <li><a href="#intro">概念说明</a></li>
+          <li><a href="#how">工作原理</a></li>
+          <li><a href="#use">使用方法</a></li>
+          <li><a href="#judge">结果判断</a></li>
+          <li><a href="#faq">常见问题</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>使用提醒</h4>
+        <ul>
+          <li>确认内容授权状态</li>
+          <li>下载文件先做安全扫描</li>
+          <li>不安装来源不明的软件</li>
+          <li>遵守当地法律法规</li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>ciliba磁力搜索引擎 · 技术原理与使用参考</span>
+      <span>本页内容仅供学习与信息参考</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function demoSearch(){
+  var input = document.getElementById('demoInput');
+  var out = document.getElementById('demoResult');
+  var kw = input.value.trim();
+  if(!kw){
+    out.textContent = '请先输入一个关键词，再点击演示检索。';
+    return;
+  }
+  out.textContent = '已接收关键词「' + kw + '」。这是本地演示交互，不会发送任何网络请求，也不返回真实资源结果。';
+}
+</script>
+
+</body>
+          </html>
